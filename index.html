@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Your Name — Software Engineer</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+           background:#f6f7fb; color:#111; margin:0; padding:30px; }
+    .container { max-width:980px; margin:0 auto; background:white; padding:28px; border-radius:8px;
+                 box-shadow:0 6px 20px rgba(20,20,50,0.06); }
+    header { display:flex; justify-content:space-between; align-items:center; gap:20px; }
+    h1 { margin:0; font-size:2rem; }
+    .links a { margin-left:12px; color:#0366d6; text-decoration:none; }
+    .links a:hover { text-decoration:underline; }
+    section { margin-top:26px; }
+    h2 { margin:0 0 12px 0; font-size:1.15rem; border-bottom:1px solid #eee; padding-bottom:8px; }
+    .skills { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    .skill { background:#eef2ff; padding:6px 10px; border-radius:6px; font-size:0.875rem; }
+    .project { margin-top:12px; }
+    /* Drag area */
+    .drop-area {
+      margin-top:12px;
+      padding:18px;
+      border:2px dashed #d0d7e9;
+      border-radius:8px;
+      text-align:center;
+      color:#5b6470;
+      background: linear-gradient(180deg, rgba(240,243,250,0.8), transparent);
+    }
+    .drop-area.dragover { border-color:#7aa2ff; background: linear-gradient(180deg, rgba(235,245,255,0.9), transparent); }
+    .previews { display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; }
+    .preview { width:180px; height:110px; object-fit:cover; border-radius:6px; border:1px solid #e6e8ef; }
+    button { background:#0366d6; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; }
+    button.secondary { background:#f3f5f9; color:#111; border:1px solid #dfe6f3; }
+    .controls { margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; }
+    .small { font-size:0.85rem; color:#555; }
+    footer { margin-top:22px; font-size:0.85rem; color:#666; }
+    pre { background:#0b1220; color:#e6eef8; padding:12px; border-radius:6px; overflow:auto; font-size:0.85rem; }
+    .resume-updates { background:#fcfcff; border:1px solid #eee; padding:10px; border-radius:6px; }
+  </style>
+  <!-- JSZip + FileSaver (for ZIP download). CDNs used client-side only -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Your Name</h1>
+        <div class="small">Computer Science & Engineering • Systems & real-time software • Unity / C# / Python</div>
+      </div>
+      <div class="links">
+        <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+        <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+        <a href="resume.pdf" target="_blank">Resume</a>
+        <a href="mailto:your@email.com">Email</a>
+      </div>
+    </header>
+
+    <section id="about">
+      <h2>About</h2>
+      <p>
+        CS & Engineering student at <strong>:contentReference[oaicite:1]{index=1}</strong>,
+        focused on systems engineering, real-time software, networking, and ML-enabled embedded systems.
+        I build robust systems that ship — game systems, networking stacks, ML pipelines, and simulation code.
+      </p>
+    </section>
+
+    <section id="featured">
+      <h2>Featured Project — Reverie (Multiplayer Procedural Game)</h2>
+      <div class="project">
+        <p>
+          A 2D multiplayer game focused on modular systems, procedural chunk generation, and an emotion-driven narrative engine.
+          Tech: Unity (C#), URP, Mirror, HLSL, JSON, multithreading.
+        </p>
+
+        <strong>Technical highlights</strong>
+        <ul>
+          <li>Modular system architecture: separated gameplay logic, networking, and rendering for maintainability</li>
+          <li>Procedural chunk-based world generation with visibility culling and low-allocation updates</li>
+          <li>Server-authoritative multiplayer scene management using Mirror (scene streaming / host-client scene transitions)</li>
+          <li>Custom URP renderer features and HLSL shaders for stylized post-processing</li>
+          <li>Optimizations: reduced per-frame GC allocations, batched rendering, and async chunk streaming</li>
+        </ul>
+
+        <!-- Drag & drop screenshots -->
+        <div style="margin-top:12px;">
+          <div class="drop-area" id="drop-area">
+            Drag & drop up to 6 screenshots here — or click to open file picker.
+            <div class="small" style="margin-top:8px;">These previews are client-side only. After you pick images, click "Download ZIP for GitHub" to get the screenshots ZIP you can upload to your repo.</div>
+          </div>
+
+          <div class="previews" id="previews"></div>
+
+          <div class="controls">
+            <input id="fileElem" type="file" accept="image/*" multiple style="display:none" />
+            <button id="pickBtn" class="secondary">Choose images</button>
+            <button id="zipBtn">Download ZIP for GitHub</button>
+            <button id="copySnippet" class="secondary">Copy image snippet</button>
+            <button id="clearBtn" class="secondary">Clear</button>
+          </div>
+
+          <div class="small" style="margin-top:8px;">After uploading images to your repo, save them under <code>screenshots/</code> and the copied snippet will reference those filenames.</div>
+        </div>
+
+        <!-- gameplay footage link -->
+        <div style="margin-top:14px;">
+          <label for="gameplayUrl"><strong>Gameplay footage (single link)</strong> — paste YouTube/Vimeo link:</label><br/>
+          <input id="gameplayUrl" placeholder="https://youtu.be/..." style="width:100%; padding:8px; margin-top:6px; border-radius:6px; border:1px solid #e6e8ef;" />
+          <div style="margin-top:6px;">
+            <a id="previewGameplay" class="secondary" style="display:inline-block; padding:8px 10px;">Open gameplay link</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="other-projects">
+      <h2>Selected Engineering Projects</h2>
+
+      <div class="project">
+        <h3>Capstone — AI Valve Angle Estimation (Sensor ML & Signal Processing)</h3>
+        <div class="resume-updates">
+          <p class="small">Add this to your resume under Projects / Capstone</p>
+          <ul>
+            <li>Developed an ML pipeline to estimate valve opening angle from IMU sensors (gyroscope, accelerometer, magnetometer).</li>
+            <li>Implemented a complementary filter combining gyro (high-frequency) with accelerometer/magnetometer (low-frequency) to correct drift and produce a stable baseline.</li>
+            <li>Trained static regression and time-windowed dynamic models; evaluated drift and disturbance robustness across test scenarios.</li>
+            <li>Added magnetometer-based correction and disturbance detection to maintain angle accuracy under transient disturbances.</li>
+            <li>Tools: Python, NumPy, SciPy, PyTorch (or scikit-learn), MATLAB for visualization and model evaluation.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="project">
+        <h3>Algorithmic Trading Bot (Python)</h3>
+        <ul>
+          <li>Optimized trading parameters (fair-value, take width, position limits) to maximize simulated returns.</li>
+          <li>Implemented logging, backtesting, and parameter sweep tools; improved decision stability under market noise.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="skills">
+        <div class="skill">C#</div>
+        <div class="skill">Python</div>
+        <div class="skill">C/C++</div>
+        <div class="skill">Networking</div>
+        <div class="skill">Unity</div>
+        <div class="skill">Git</div>
+        <div class="skill">Linux</div>
+        <div class="skill">Signal Processing</div>
+        <div class="skill">Machine Learning</div>
+      </div>
+    </section>
+
+    <section id="resume">
+      <h2>Resume highlights & engineering phrasing</h2>
+      <div class="resume-updates">
+        <p class="small">Below are suggested bullets you can add to your résumé to better emphasize software/engineering impact (based on your uploaded résumé). See file: <span style="font-style:italic">ResumeCur.pdf</span>. :contentReference[oaicite:2]{index=2}</p>
+
+        <strong>Experience (example bullets to add / replace):</strong>
+        <ul>
+          <li>Built a backend Java API with AWS integration (Lambda, S3, IAM, API Gateway) to implement a secure user-token authentication flow; improved onboarding time and traceability during QA cycles.</li>
+          <li>Instrumented API analytics using GA4 to enable marketing-led lead generation and product telemetry for feature prioritization.</li>
+          <li>Implemented role-based group permissions and centralized logging for a clinical environment (policy-compliant), reducing incident triage time.</li>
+          <li>Designed and executed a CI-backed deployment pipeline for research prototypes (Git + automated test + artifact storage).</li>
+        </ul>
+
+        <strong>Projects (concise engineering phrasing):</strong>
+        <ul>
+          <li><em>Reverie (Unity)</em> — Wrote 40k+ lines of C# for scalable backend and gameplay; implemented async chunk loading, raycast-based interactions, AI pathfinding, and multi-threaded subsystems to reduce main-thread stalls.</li>
+          <li><em>Cuphead Clone</em> — Led a team of 5; designed component-based entity system, optimized frame-time determinism, and used Agile workflows with Git for collaboration.</li>
+          <li><em>CTF Website</em> — Built full LAMP stack and automated maintenance tasks (cron), deployed hardened server with basic IDS rules and privilege separation.</li>
+        </ul>
+
+        <strong>Use strong result statements where possible:</strong>
+        <ul>
+          <li>“Reduced frame-time spikes by X%” — add measured numbers where available (profiling highlights).</li>
+          <li>“Cut memory allocations per frame by Y KB” — mention specific improvements from your optimization work.</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      <div>© 2026 Your Name — Built with HTML • Host on GitHub Pages</div>
+    </footer>
+  </div>
+
+<script>
+(function(){
+  const dropArea = document.getElementById('drop-area');
+  const previews = document.getElementById('previews');
+  const fileElem = document.getElementById('fileElem');
+  const pickBtn = document.getElementById('pickBtn');
+  const zipBtn = document.getElementById('zipBtn');
+  const copySnippet = document.getElementById('copySnippet');
+  const clearBtn = document.getElementById('clearBtn');
+  const gameplayUrl = document.getElementById('gameplayUrl');
+  const previewGameplay = document.getElementById('previewGameplay');
+
+  let files = []; // File objects dropped
+
+  function preventDefaults(e){ e.preventDefault(); e.stopPropagation(); }
+  ['dragenter','dragover','dragleave','drop'].forEach(evt=>{
+    dropArea.addEventListener(evt, preventDefaults, false);
+  });
+
+  ['dragenter','dragover'].forEach(evt=>{
+    dropArea.addEventListener(evt, ()=> dropArea.classList.add('dragover'), false);
+  });
+  ['dragleave','drop'].forEach(evt=>{
+    dropArea.addEventListener(evt, ()=> dropArea.classList.remove('dragover'), false);
+  });
+
+  dropArea.addEventListener('drop', handleDrop, false);
+  pickBtn.addEventListener('click', ()=> fileElem.click());
+  fileElem.addEventListener('change', (e)=> handleFiles(e.target.files));
+
+  function handleDrop(e){
+    const dt = e.dataTransfer;
+    handleFiles(dt.files);
+  }
+
+  function handleFiles(fileList){
+    const arr = Array.from(fileList).filter(f=> f.type.startsWith('image/')).slice(0,6);
+    arr.forEach(f=>{
+      files.push(f);
+      const img = document.createElement('img');
+      img.className = 'preview';
+      img.file = f;
+      previews.appendChild(img);
+      const reader = new FileReader();
+      reader.onload = (function(aImg){ return function(e){ aImg.src = e.target.result; }; })(img);
+      reader.readAsDataURL(f);
+    });
+  }
+
+  zipBtn.addEventListener('click', async ()=>{
+    if(files.length===0){ alert('No images selected. Drag some images into the area first.'); return; }
+    // Create zip
+    const zip = new JSZip();
+    const folder = zip.folder('screenshots');
+    for(let f of files){
+      const arrBuf = await f.arrayBuffer();
+      folder.file(f.name, arrBuf);
+    }
+    // Also include a simple README for how to place files in repo
+    zip.file('README.txt', 'Place the contents of the screenshots/ folder at the repository root under screenshots/. Then commit & push. The index.html references screenshots by filename.');
+    zip.generateAsync({type:'blob'}).then(function(content){
+      saveAs(content, 'screenshots_for_github.zip');
+    });
+  });
+
+  copySnippet.addEventListener('click', ()=>{
+    if(files.length===0){ alert('No images selected. Drag some images into the area first.'); return; }
+    const snippet = files.map(f=> `<img src="screenshots/${f.name}" alt="${f.name}" class="preview">`).join('\\n');
+    navigator.clipboard.writeText(snippet).then(()=> {
+      alert('Image snippet copied to clipboard. Upload images to your repo under /screenshots/ and paste the snippet where needed.');
+    });
+  });
+
+  clearBtn.addEventListener('click', ()=>{
+    files = []; previews.innerHTML = '';
+  });
+
+  previewGameplay.addEventListener('click', ()=>{
+    const url = gameplayUrl.value.trim();
+    if(!url) { alert('Paste your gameplay YouTube/Vimeo link into the box first.'); return; }
+    window.open(url, '_blank');
+  });
+
+})();
+</script>
+</body>
+</html>
