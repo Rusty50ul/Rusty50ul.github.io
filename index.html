@@ -9,58 +9,123 @@
       --accent:#0366d6;
       --muted:#6b7280;
       --card:#ffffff;
-      --bg:#f6f7fb;
+      --bg:#0f172a; /* base dark for starfield contrast */
       --maxw:1000px;
       --radius:10px;
       --gap:18px;
     }
-    html,body{height:100%;}
+    html,body{height:100%; margin:0; padding:0;}
     body{
-      margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background:var(--bg); color:#0f172a; -webkit-font-smoothing:antialiased;
-      line-height:1.45;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg); color:#e6eef8; -webkit-font-smoothing:antialiased;
+      line-height:1.45; overflow-x:hidden;
     }
-    .wrap{max-width:var(--maxw); margin:28px auto; padding:28px; background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(250,250,252,0.95)); border-radius:var(--radius); box-shadow:0 12px 40px rgba(12,15,30,0.06);}
-    header{display:flex; align-items:flex-start; gap:20px; justify-content:space-between;}
+
+    /* STARFIELD CANVAS */
+    #bg-canvas {
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:0;
+      display:block;
+      background: linear-gradient(180deg, #071029 10%, #07101a 60%, #08122a 100%);
+      pointer-events: none; /* allow clicks through to page */
+    }
+
+.wrap{
+  position:relative;
+  z-index:2;
+  max-width:var(--maxw);
+  margin:28px auto;
+  padding:28px;
+  background:#0b1220; /* fully solid */
+  border-radius:var(--radius);
+  box-shadow:0 20px 60px rgba(0,0,0,0.7);
+  border:1px solid rgba(255,255,255,0.04);
+}    header{display:flex; align-items:flex-start; gap:20px; justify-content:space-between;}
     .me{display:flex; gap:18px; align-items:center;}
-    .avatar{width:84px; height:84px; border-radius:10px; background:#e6eef8; display:flex; align-items:center; justify-content:center; color:var(--muted); font-weight:600;}
-    h1{margin:0; font-size:1.6rem;}
-    .contact{font-size:0.95rem; color:var(--muted);}
+    .avatar{width:84px; height:84px; border-radius:10px; background:linear-gradient(135deg,#0f172a,#102233); display:flex; align-items:center; justify-content:center; color:var(--muted); font-weight:700; border:1px solid rgba(255,255,255,0.03);}
+    h1{margin:0; font-size:1.6rem; color:#e6eef8;}
+    .contact{font-size:0.95rem; color:#b7c3d3;}
     .links a{color:var(--accent); text-decoration:none; margin-left:12px;}
     .section{margin-top:22px;}
-    h2{font-size:1.05rem; margin:0 0 12px 0; color:#0b1220;}
+    h2{font-size:1.05rem; margin:0 0 12px 0; color:#dfe9f8;}
     .two-col{display:grid; grid-template-columns: 1fr 340px; gap:22px;}
-    .card{background:var(--card); border-radius:8px; padding:16px; box-shadow:0 4px 18px rgba(12,15,30,0.04); border:1px solid #f0f2f8;}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:8px; padding:16px; box-shadow:0 6px 18px rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.03);}
     ul{margin:8px 0 8px 18px;}
     .skills{display:flex; flex-wrap:wrap; gap:8px;}
-    .skill{background:#eef2ff; padding:6px 10px; border-radius:6px; font-size:0.86rem; color:#072a6b;}
+    .skill{background:rgba(255,255,255,0.03); padding:6px 10px; border-radius:6px; font-size:0.86rem; color:#cfe6ff; border:1px solid rgba(255,255,255,0.03);}
     .screens{display:flex; gap:10px; flex-wrap:wrap;}
-    .screens img{width:150px; height:94px; object-fit:cover; border-radius:6px; border:1px solid #eef2f7;}
+    .screens img{width:150px; height:94px; object-fit:cover; border-radius:6px; border:1px solid rgba(255,255,255,0.05); cursor:zoom-in; transition:transform .2s ease, box-shadow .2s ease;}
+    .screens img:active{transform:scale(.98);}
     .project-hero{display:flex; gap:18px; align-items:flex-start;}
     .yt{width:100%; height:320px; border-radius:8px; border:0; background:#000;}
-    .meta{font-size:0.92rem; color:var(--muted);}
-    .small{font-size:0.86rem; color:var(--muted);}
-    footer{margin-top:26px; font-size:0.85rem; color:var(--muted); text-align:center;}
+    .meta{font-size:0.92rem; color:#b7c3d3;}
+    .small{font-size:0.86rem; color:#b7c3d3;}
+    footer{margin-top:26px; font-size:0.85rem; color:#98a8bf; text-align:center;}
     @media (max-width:900px){
       .two-col{grid-template-columns: 1fr;}
       .yt{height:200px;}
       .screens img{width:48%; height:120px;}
     }
+
+    /* LIGHTBOX / MODAL */
+    .lightbox {
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:10;
+      background:rgba(2,4,12,0.75);
+      backdrop-filter: blur(6px);
+    }
+    .lightbox.show { display:flex; }
+    .lightbox img {
+      max-width:92%;
+      max-height:86%;
+      border-radius:8px;
+      box-shadow:0 20px 60px rgba(2,8,20,0.8);
+      transform-origin:center center;
+      transition: transform .28s cubic-bezier(.2,.9,.2,1), opacity .2s ease;
+      opacity:0;
+      transform: scale(0.92);
+    }
+    .lightbox.show img { opacity:1; transform: scale(1); }
+    .lightbox .close {
+      position:absolute;
+      top:18px; right:18px;
+      background:rgba(0,0,0,0.45); color:#fff; border:0; padding:8px 10px; border-radius:8px; cursor:pointer;
+      font-size:13px;
+    }
+    .lightbox .nav {
+      position:absolute; top:50%; transform:translateY(-50%); font-size:30px; color:rgba(255,255,255,0.85); cursor:pointer; user-select:none;
+      padding:8px 12px; background:rgba(0,0,0,0.2); border-radius:6px;
+    }
+    .lightbox .nav.left { left:18px; }
+    .lightbox .nav.right { right:18px; }
+
+    /* subtle focus outline for keyboard accessibility */
+    .screens img:focus { outline: 3px solid rgba(3,102,214,0.25); outline-offset:3px; }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <!-- Starfield canvas -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <div class="wrap" role="main">
     <header>
       <div class="me">
-        <div class="avatar">DJ</div>
+        <div class="avatar" aria-hidden="true">DJ</div>
         <div>
           <h1>David J. Dermanelian</h1>
           <div class="contact">
             571-327-6967 • <a href="mailto:dermanelian.2@buckeyemail.osu.edu">dermanelian.2@buckeyemail.osu.edu</a>
             <span class="links">
-              <a href="https://linkedin.com/in/davidderm" target="_blank">LinkedIn</a>
-              <a href="https://rusty50ul.github.io/" target="_blank">Portfolio</a>
-              <a href="BRANDNEWRESUME.pdf" target="_blank">Resume (PDF)</a>
+              <a href="https://linkedin.com/in/davidderm" target="_blank" rel="noopener">LinkedIn</a>
+              <a href="https://rusty50ul.github.io/" target="_blank" rel="noopener">Portfolio</a>
+              <a href="BRANDNEWRESUME.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
             </span>
           </div>
         </div>
@@ -98,14 +163,17 @@
 
               <div style="margin-top:10px;">
                 <strong>Screenshots</strong>
-                <div class="screens" style="margin-top:8px;">
-                  <img src="ss1.webp" alt="screenshot 1">
-                  <img src="ss2.webp" alt="screenshot 2">
-                  <img src="ss3.png" alt="screenshot 3">
-                  <img src="ss4.webp" alt="screenshot 4">
-                  <img src="ss5.webp" alt="screenshot 5">
-                  <img src="ss6.webp" alt="screenshot 6">
+                <div class="screens" id="screens" style="margin-top:8px;">
+                  <img tabindex="0" src="ss1.webp" alt="Reverie screenshot 1" data-index="0">
+                  <img tabindex="0" src="ss2.webp" alt="Reverie screenshot 2" data-index="1">
+                  <img tabindex="0" src="ss3.png" alt="Reverie screenshot 3" data-index="2">
+                  <img tabindex="0" src="ss4.webp" alt="Reverie screenshot 4" data-index="3">
+                  <img tabindex="0" src="ss5.webp" alt="Reverie screenshot 5" data-index="4">
+                  <img tabindex="0" src="ss6.webp" alt="Reverie screenshot 6" data-index="5">
+                  <img tabindex="0" src="ss7.webp" alt="Reverie screenshot 7" data-index="6">
+
                 </div>
+                <div class="small" style="margin-top:8px;">Click any image to view larger. Use ← / → or Esc to navigate/close.</div>
               </div>
 
             </div>
@@ -131,7 +199,7 @@
         </section>
 
         <section class="card" style="margin-top:18px;">
-          <h2>Other Selected Projects</h2>
+          <h2>Other Projects</h2>
 
           <div style="margin-top:8px;">
             <strong>Cuphead Clone</strong>
@@ -184,7 +252,7 @@
         </div>
 
         <div class="card" style="margin-top:18px;">
-          <h2>Experience (selected)</h2>
+          <h2>Experience</h2>
           <div style="margin-top:8px;">
             <strong>Technical Intern — Chemical Abstracts Service (CAS)</strong>
             <div class="small">May 2025 – Aug 2025</div>
@@ -226,5 +294,216 @@
       © 2026 David J. Dermanelian
     </footer>
   </div>
+
+  <!-- LIGHTBOX MARKUP -->
+  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Image viewer">
+    <button class="close" id="lb-close" aria-label="Close (Esc)">✕</button>
+    <div class="nav left" id="lb-prev" title="Previous" aria-hidden="true">‹</div>
+    <div class="nav right" id="lb-next" title="Next" aria-hidden="true">›</div>
+    <img id="lb-img" src="" alt="Expanded screenshot">
+  </div>
+
+  <script>
+  /* ---------------------------
+     Lightbox / Image Zoom logic
+     --------------------------- */
+  (function(){
+    const imgs = Array.from(document.querySelectorAll('.screens img'));
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const closeBtn = document.getElementById('lb-close');
+    const prevBtn = document.getElementById('lb-prev');
+    const nextBtn = document.getElementById('lb-next');
+
+    let currentIndex = 0;
+
+    function openAt(index){
+      currentIndex = (index + imgs.length) % imgs.length;
+      lbImg.src = imgs[currentIndex].src;
+      lbImg.alt = imgs[currentIndex].alt || 'Screenshot';
+      lb.classList.add('show');
+      lb.setAttribute('aria-hidden','false');
+      // small delay to trigger CSS transition visible state
+      requestAnimationFrame(()=> {
+        lbImg.classList.add('visible');
+      });
+    }
+
+    function closeLB(){
+      lb.classList.remove('show');
+      lb.setAttribute('aria-hidden','true');
+      lbImg.classList.remove('visible');
+      // clear src after transition to help memory on mobile
+      setTimeout(()=> lbImg.src = '', 300);
+    }
+
+    imgs.forEach((img, i)=>{
+      img.addEventListener('click', ()=> openAt(i));
+      img.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openAt(i); }
+      });
+    });
+
+    closeBtn.addEventListener('click', closeLB);
+    lb.addEventListener('click', (e)=>{
+      if(e.target === lb) closeLB(); // click on backdrop closes
+    });
+
+    prevBtn.addEventListener('click', ()=> openAt(currentIndex - 1));
+    nextBtn.addEventListener('click', ()=> openAt(currentIndex + 1));
+
+    document.addEventListener('keydown', (e)=>{
+      if(lb.classList.contains('show')){
+        if(e.key === 'Escape') closeLB();
+        if(e.key === 'ArrowLeft') openAt(currentIndex - 1);
+        if(e.key === 'ArrowRight') openAt(currentIndex + 1);
+      }
+    });
+
+    // touch: swipe to navigate
+    let touchStartX = 0;
+    lbImg.addEventListener('touchstart', (e)=> {
+      touchStartX = e.touches[0].clientX;
+    }, {passive:true});
+    lbImg.addEventListener('touchend', (e)=> {
+      const dx = (e.changedTouches[0].clientX - touchStartX);
+      if(Math.abs(dx) > 40){
+        if(dx > 0) openAt(currentIndex - 1); else openAt(currentIndex + 1);
+      }
+    }, {passive:true});
+  })();
+
+  /* ---------------------------
+     Starfield + connecting lines
+     --------------------------- */
+  (function(){
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    let w=0, h=0, DPR = Math.max(1, window.devicePixelRatio || 1);
+    let mouse = {x: -9999, y: -9999};
+    let STAR_DENSITY = 0.0004; // stars per px^2 (tweak)
+    const MAX_DIST = 140; // distance threshold for connecting lines
+
+    function resize(){
+      DPR = Math.max(1, window.devicePixelRatio || 1);
+      w = Math.max(300, innerWidth);
+      h = Math.max(300, innerHeight);
+      canvas.width = Math.floor(w * DPR);
+      canvas.height = Math.floor(h * DPR);
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+      initStars();
+    }
+
+    function initStars(){
+      stars = [];
+      const area = w * h;
+      const count = Math.max(60, Math.floor(area * STAR_DENSITY));
+      for(let i=0;i<count;i++){
+        stars.push({
+          x: Math.random()*w,
+          y: Math.random()*h,
+          r: Math.random()*1.5 + 0.6,
+          vx: (Math.random()*0.06 - 0.03),
+          vy: (Math.random()*0.06 - 0.03),
+          alpha: Math.random()*0.6 + 0.4,
+          flicker: Math.random()*0.02 + 0.005
+        });
+      }
+    }
+
+    function update(dt){
+      for(const s of stars){
+        s.x += s.vx * dt * 0.02;
+        s.y += s.vy * dt * 0.02;
+        // flicker
+        s.alpha += (Math.sin(dt * s.flicker + s.x*0.001) * 0.0008);
+        if(s.alpha < 0.25) s.alpha = 0.25;
+        if(s.alpha > 1) s.alpha = 1;
+        // wrap
+        if(s.x < -10) s.x = w + 10;
+        if(s.x > w + 10) s.x = -10;
+        if(s.y < -10) s.y = h + 10;
+        if(s.y > h + 10) s.y = -10;
+      }
+    }
+
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+
+      // slight gradient background (already in CSS but reinforce)
+      const grd = ctx.createLinearGradient(0,0,0,h);
+      grd.addColorStop(0, '#071029');
+      grd.addColorStop(1, '#08122a');
+      ctx.fillStyle = grd;
+      ctx.fillRect(0,0,w,h);
+
+      // draw stars
+      for(const s of stars){
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+
+      // connect lines between nearby stars (and to mouse if close)
+      ctx.lineWidth = 0.9;
+      for(let i=0;i<stars.length;i++){
+        const a = stars[i];
+        // optionally connect to mouse if within threshold
+        const dxm = a.x - mouse.x;
+        const dym = a.y - mouse.y;
+        const dm = dxm*dxm + dym*dym;
+        if(dm < (MAX_DIST*MAX_DIST) * 0.45){
+          const alpha = 0.45 * (1 - Math.sqrt(dm) / (MAX_DIST * 0.67));
+          ctx.strokeStyle = `rgba(110,160,255,${alpha})`;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+        for(let j=i+1;j<stars.length;j++){
+          const b = stars[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const d2 = dx*dx + dy*dy;
+          if(d2 < MAX_DIST*MAX_DIST){
+            const alpha = 0.28 * (1 - Math.sqrt(d2) / MAX_DIST);
+            ctx.strokeStyle = `rgba(120,140,220,${alpha})`;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    // animation timing
+    let last = performance.now();
+    function tick(now){
+      const dt = now - last;
+      last = now;
+      update(now);
+      draw();
+      requestAnimationFrame(tick);
+    }
+
+    // mouse tracking - we use pointermove on window; canvas pointer-events none so still receive events
+    window.addEventListener('pointermove', (e)=> {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    }, {passive:true});
+    window.addEventListener('pointerleave', ()=> {
+      mouse.x = -9999; mouse.y = -9999;
+    });
+
+    window.addEventListener('resize', resize);
+    resize();
+    requestAnimationFrame(tick);
+  })();
+  </script>
 </body>
 </html>
