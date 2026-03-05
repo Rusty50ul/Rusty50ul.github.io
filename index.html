@@ -1,1 +1,230 @@
-<h1><center>WORK IN PROGRESS, CHECK BACK ON 3/4/2026</center></h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>David J. Dermanelian — Software Engineer</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --accent:#0366d6;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --bg:#f6f7fb;
+      --maxw:1000px;
+      --radius:10px;
+      --gap:18px;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg); color:#0f172a; -webkit-font-smoothing:antialiased;
+      line-height:1.45;
+    }
+    .wrap{max-width:var(--maxw); margin:28px auto; padding:28px; background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(250,250,252,0.95)); border-radius:var(--radius); box-shadow:0 12px 40px rgba(12,15,30,0.06);}
+    header{display:flex; align-items:flex-start; gap:20px; justify-content:space-between;}
+    .me{display:flex; gap:18px; align-items:center;}
+    .avatar{width:84px; height:84px; border-radius:10px; background:#e6eef8; display:flex; align-items:center; justify-content:center; color:var(--muted); font-weight:600;}
+    h1{margin:0; font-size:1.6rem;}
+    .contact{font-size:0.95rem; color:var(--muted);}
+    .links a{color:var(--accent); text-decoration:none; margin-left:12px;}
+    .section{margin-top:22px;}
+    h2{font-size:1.05rem; margin:0 0 12px 0; color:#0b1220;}
+    .two-col{display:grid; grid-template-columns: 1fr 340px; gap:22px;}
+    .card{background:var(--card); border-radius:8px; padding:16px; box-shadow:0 4px 18px rgba(12,15,30,0.04); border:1px solid #f0f2f8;}
+    ul{margin:8px 0 8px 18px;}
+    .skills{display:flex; flex-wrap:wrap; gap:8px;}
+    .skill{background:#eef2ff; padding:6px 10px; border-radius:6px; font-size:0.86rem; color:#072a6b;}
+    .screens{display:flex; gap:10px; flex-wrap:wrap;}
+    .screens img{width:150px; height:94px; object-fit:cover; border-radius:6px; border:1px solid #eef2f7;}
+    .project-hero{display:flex; gap:18px; align-items:flex-start;}
+    .yt{width:100%; height:320px; border-radius:8px; border:0; background:#000;}
+    .meta{font-size:0.92rem; color:var(--muted);}
+    .small{font-size:0.86rem; color:var(--muted);}
+    footer{margin-top:26px; font-size:0.85rem; color:var(--muted); text-align:center;}
+    @media (max-width:900px){
+      .two-col{grid-template-columns: 1fr;}
+      .yt{height:200px;}
+      .screens img{width:48%; height:120px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="me">
+        <div class="avatar">DJ</div>
+        <div>
+          <h1>David J. Dermanelian</h1>
+          <div class="contact">
+            571-327-6967 • <a href="mailto:dermanelian.2@buckeyemail.osu.edu">dermanelian.2@buckeyemail.osu.edu</a>
+            <span class="links">
+              <a href="https://linkedin.com/in/davidderm" target="_blank">LinkedIn</a>
+              <a href="https://rusty50ul.github.io/" target="_blank">Portfolio</a>
+              <a href="BRANDNEWRESUME.pdf" target="_blank">Resume (PDF)</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="min-width:260px;">
+        <div class="small" style="margin-bottom:8px;"><strong>Education</strong></div>
+        <div style="font-weight:600">Bachelor of Science — Computer Science & Engineering</div>
+        <div class="small">The Ohio State University, Columbus, OH — Aug 2022 – May 2026</div>
+        <div class="small" style="margin-top:8px;">GPA: 3.64 — Dean’s List: AU22, AU23, SP24, AU24, SP25, AU25</div>
+      </div>
+    </header>
+
+    <div class="section two-col">
+      <main>
+
+        <section class="card">
+          <h2>Featured Project — Reverie (Multiplayer Procedural Game)</h2>
+          <div class="project-hero" style="margin-top:10px;">
+            <div style="flex:1;">
+              <p class="meta">
+                Multiplayer 2D project focused on modular systems, procedural chunk generation, server-authoritative networking, and stylized rendering.
+              </p>
+
+              <div style="margin-top:10px;">
+                <strong>Technical highlights</strong>
+                <ul>
+                  <li>~40k lines of C# for backend and gameplay systems; component-based architecture for maintainability.</li>
+                  <li>Procedural chunk-based world generation with async streaming and visibility culling to limit draw calls.</li>
+                  <li>Server-authoritative networking using Mirror, with scene-management for client transitions and deterministic event handling.</li>
+                  <li>Custom URP renderer features and HLSL shaders to achieve stylized post-processing.</li>
+                  <li>Performance work: reduced per-frame GC allocations, background threading for chunk/path updates, batched draw calls.</li>
+                </ul>
+              </div>
+
+              <div style="margin-top:10px;">
+                <strong>Screenshots</strong>
+                <div class="screens" style="margin-top:8px;">
+                  <img src="ss1.webp" alt="screenshot 1">
+                  <img src="ss2.webp" alt="screenshot 2">
+                  <img src="ss3.png" alt="screenshot 3">
+                  <img src="ss4.webp" alt="screenshot 4">
+                  <img src="ss5.webp" alt="screenshot 5">
+                  <img src="ss6.webp" alt="screenshot 6">
+                </div>
+              </div>
+
+            </div>
+
+            <div style="width:360px;">
+              <!-- YouTube embed -->
+              <iframe class="yt" src="https://www.youtube.com/embed/RlnsRKT9WNU" title="Reverie gameplay" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" style="margin-top:18px;">
+          <h2>AI Valve Estimation — Capstone</h2>
+          <div class="meta" style="margin-top:8px;">
+            Sensor-fusion and ML pipeline to estimate valve opening angle using IMU data (gyro, accel, magnetometer).
+          </div>
+          <ul style="margin-top:8px;">
+            <li>Implemented complementary filter combining high-frequency gyro with low-frequency accel/mag to correct drift.</li>
+            <li>Built and compared static regression and dynamic time-windowed models; evaluated robustness to disturbances and drift.</li>
+            <li>Added magnetometer-based corrections and disturbance detection to retain accuracy during transients.</li>
+            <li>Tools: Python, NumPy, SciPy, scikit-learn, plotting for visualization & evaluation.</li>
+          </ul>
+        </section>
+
+        <section class="card" style="margin-top:18px;">
+          <h2>Other Selected Projects</h2>
+
+          <div style="margin-top:8px;">
+            <strong>Cuphead Clone</strong>
+            <div class="small">Monogame, C#, Agile — Led team of 3 to implement a level replica; component-based entity system; emphasis on determinism and performance.</div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <strong>Algorithmic Trading Bot</strong>
+            <div class="small">Python — Parameter tuning, backtesting, logging and simulation for strategy evaluation.</div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <strong>CTF Website</strong>
+            <div class="small">Full-stack LAMP application with maintenance scripts, cron automation, and basic IDS protections.</div>
+          </div>
+        </section>
+
+      </main>
+
+      <aside>
+        <div class="card">
+          <h2>Technical Skills</h2>
+          <div style="margin-top:8px;">
+            <strong>Languages</strong>
+            <div class="skills" style="margin-top:8px;">
+              <div class="skill">Java</div><div class="skill">Python</div><div class="skill">C</div><div class="skill">C#</div><div class="skill">SQL</div><div class="skill">TypeScript</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <strong>Frameworks / Tools</strong>
+            <div class="skills" style="margin-top:8px;">
+              <div class="skill">Unity</div><div class="skill">Mirror</div><div class="skill">URP / HLSL</div><div class="skill">PyTorch</div><div class="skill">Git</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <strong>Cloud / DevOps</strong>
+            <div class="small" style="margin-top:8px;">
+              AWS (Lambda, S3, API Gateway, IAM, CloudWatch), Docker basics, Linux command-line
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <strong>Concepts</strong>
+            <div class="skills" style="margin-top:8px;">
+              <div class="skill">Networking</div><div class="skill">Multithreading</div><div class="skill">Signal Processing</div><div class="skill">System Design</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px;">
+          <h2>Experience (selected)</h2>
+          <div style="margin-top:8px;">
+            <strong>Technical Intern — Chemical Abstracts Service (CAS)</strong>
+            <div class="small">May 2025 – Aug 2025</div>
+            <ul style="margin-top:8px;">
+              <li>Developed backend Java API and integrated AWS services to implement user-token authentication and onboarding flows.</li>
+              <li>Instrumented analytics (GA4) for API endpoints to support product decisions and lead generation.</li>
+              <li>Worked with cross-functional teams in Agile environment (Jira / Confluence / GitLab).</li>
+            </ul>
+          </div>
+
+          <div style="margin-top:12px;">
+            <strong>IT Assistant — OSU Wexner Medical Center</strong>
+            <div class="small">Jul 2023 – May 2025</div>
+            <ul style="margin-top:8px;">
+              <li>Managed group permissions, logging, and security standards; automated common admin tasks with scripts.</li>
+            </ul>
+          </div>
+
+          <div style="margin-top:12px;">
+            <strong>Handshake MOVE Fellowship — AI Trainer</strong>
+            <div class="small">Dec 2025 – Feb 2026</div>
+            <ul style="margin-top:8px;">
+              <li>Developed domain-specific prompts and evaluation harnesses for LLM-driven image generation tasks.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px;">
+          <h2>Honors</h2>
+          <div class="small" style="margin-top:8px;">
+            Eagle Scout — Boy Scouts of America (led construction of a 40ft wheelchair ramp)
+          </div>
+        </div>
+
+      </aside>
+    </div>
+
+    <footer>
+      © 2026 David J. Dermanelian
+    </footer>
+  </div>
+</body>
+</html>
